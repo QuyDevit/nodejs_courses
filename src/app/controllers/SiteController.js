@@ -1,16 +1,22 @@
-const Course = require('../models/Courses');
+const Course = require('../models/Course');
+const {multtipleMongooseToObject} = require('../../unti/mongoose')
 
 class SiteController {
   // [GET] /
-  async index(req, res) {
-    try {
-          const courses = await Course.find({});
-          res.json(courses);
-    } catch (error) {
-       res.status(500).json({ error: error.message });
-    }
-
-    // res.render('home');
+  async index(req, res, next) {
+    // try {
+    //       const courses = await Course.find({});
+    //       res.json(courses);
+    // } catch (error) {
+    //     next(error);
+    // }
+    Course.find({})
+      .then((courses) => {
+        res.render('home', {
+           courses : multtipleMongooseToObject(courses)
+          });
+      })
+      .catch(next);
   }
   // [GET] /search
   search(req, res) {
