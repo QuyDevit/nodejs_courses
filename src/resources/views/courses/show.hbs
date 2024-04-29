@@ -1,18 +1,23 @@
 <div class="mt-4">
     <div class="row">
-        <div class="col-lg-3">
-            <button>Học ngay</button>
+        <div class="col-lg-3 d-flex flex-column align-items-center justify-content-center sidebar-left">
+            <img class="logo-course" src="https://technologyineducation.net/cdn/shop/files/Logo_Pag_sin_fondo.png?v=1659898211&width=531" alt="">
+            <button class="btn-learn">Học ngay</button>
             <ul class="list-group">
                 <li class="list-group-item">{{course.level}}</li>
+                <li class="list-group-item">Học mọi lúc mọi nơi</li>
             </ul>
         </div>
         <div class="col-lg-9">
-            <h2>{{course.name}}</h2>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/{{course.videoId}}?si=AmaqwsXtXOU6DccD"
-                title="YouTube video player" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                <p>{{course.description}}</p>
+            <h2 class="text-center">{{course.name}}</h2>
+            <div class="d-flex justify-content-center mt-5">
+                <iframe width="910" height="400" src="https://www.youtube.com/embed/{{course.videoId}}?si=AmaqwsXtXOU6DccD"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            <p class="px-4 fw-bold fs-4 mt-4">Mô tả khóa học</p>
+            <p class="px-4 ">{{course.description}}</p>
         </div>
     </div>
 </div>
