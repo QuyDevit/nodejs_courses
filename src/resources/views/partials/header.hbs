@@ -10,20 +10,32 @@
         <ul class="navbar-nav ms-auto ">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="https://lh3.googleusercontent.com/a/ACg8ocKmtQgkpdevSh5iQ83neJW2k0T7fyFI882JWGkFhIn5_4HE3w=s96-c-br100-rg-mo" class="user-avatar">
-              User
+              {{#if user}}
+                {{#if (isEmpty user.avatar)}}
+                  <img src="https://cdn-icons-png.flaticon.com/512/3607/3607444.png" class="user-avatar">
+                {{else}}
+                  <img src="{{user.avatar}}" class="user-avatar">
+                {{/if}}
+              <span>Xin chào, {{user.username}}</span>
+              {{else}}
+              <span>User</span>
+              {{/if}}
             </a>
             <ul class="dropdown-menu">
+              {{#if user}}         
               <li><a class="dropdown-item" href="/courses/create">Tạo khóa học</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
               <li><a class="dropdown-item" href="/me/stored/courses">Khóa học của tôi</a></li>
-                <li><a class="dropdown-item" href="/me/stored/news">Tin tức</a></li>
+                {{!-- <li><a class="dropdown-item" href="/me/stored/news">Tin tức</a></li> --}}
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item" href="#">Đăng Xuất</a></li>
+              <li><a class="dropdown-item" href="/logout">Đăng Xuất</a></li>
+              {{else}}
+              <li><a href="#" class="dropdown-item btn-login">Đăng Nhập</a></li>
+              {{/if}}
             </ul>
           </li>
         </ul>
@@ -31,3 +43,234 @@
       </div>
   </div>
 </nav>
+
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-bottom-0">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-title text-center">
+          <h4 class="text-muted">Đăng Nhập</h4>
+        </div>
+        <div class="d-flex flex-column">
+          <form>
+            <div class="form-group mb-3">
+              <label for="username" class="form-label fw-bold text-muted">Tên tài khoản</label>
+              <input type="text" class="form-control" id="username" placeholder="Tên tài khoản..." autocomplete="username">
+            </div>
+            <div class="form-group mb-3">
+              <label for="password" class="form-label fw-bold text-muted">Mật khẩu</label>
+              <input type="password" class="form-control" id="password" placeholder="Mật khẩu..." autocomplete="password">
+            </div>
+            <button id="loginButton" type="button" class="btn btn-info btn-block btn-round text-white" style="width:100%">Đăng nhập</button>
+          </form>
+
+          <div class="text-center text-muted delimiter fw-bold text-muted">Hoặc đăng nhập với</div>
+          <div class="d-flex justify-content-center social-buttons">
+            <button type="button" class="btn btn-secondary btn-round login-gg-btn" data-toggle="tooltip" data-placement="top"
+              title="Twitter">
+              <i class="fab fa-google"></i>
+            </button>
+            <button type="button" class="btn btn-secondary btn-round" data-toggle="tooltip" data-placement="top"
+              title="Facebook">
+              <i class="fab fa-facebook"></i>
+            </button>     
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <div class="signup-section">Chưa có tài khoản? <a id="signup" href="#" class="text-info"> Đăng ký</a>.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-bottom-0">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-title text-center">
+          <h4 class="text-muted">Đăng Ký</h4>
+        </div>
+        <div class="d-flex flex-column">
+          <form >
+            <div class="form-group mb-3">
+              <label for="usersignup" class="form-label fw-bold text-muted">Tên tài khoản</label>
+              <input type="text" class="form-control" id="usersignup" required placeholder="Tên tài khoản...">
+            </div>
+            <div class="form-group mb-3">
+              <label for="emailsignup" class="form-label fw-bold text-muted">Email</label>
+              <input type="email" class="form-control" id="emailsignup" required placeholder="Email..." autocomplete="emailsignup">
+            </div>
+            <div class="form-group mb-3">
+              <label for="usersignup" class="form-label fw-bold text-muted">Mật khẩu</label>
+              <input type="password" class="form-control" id="passsignup" required placeholder="Mật khẩu..." autocomplete="passsignup">
+            </div>
+            <div class="form-group mb-3">
+              <label for="repasssignup" class="form-label fw-bold text-muted">Nhập lại mật khẩu</label>
+              <input type="password" class="form-control" id="repasssignup" required placeholder="Mật khẩu..." autocomplete="repasssignup">
+            </div>
+            <button type="button" class="btn btn-info btn-block btn-round text-white" id="signupButton" style="width:100%">Đăng Ký</button>
+          </form>
+
+          <div class="text-center text-muted delimiter fw-bold text-muted">Hoặc đăng nhập với</div>
+          <div class="d-flex justify-content-center social-buttons">
+            <button type="button" class="btn btn-secondary btn-round login-gg-btn" data-toggle="tooltip" data-placement="top"
+              title="Twitter">
+              <i class="fab fa-google"></i>
+            </button>
+            <button type="button" class="btn btn-secondary btn-round" data-toggle="tooltip" data-placement="top"
+              title="Facebook">
+              <i class="fab fa-facebook"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <div class="signup-section">Đã có tài khoản? <a id="login" href="#" class="text-info">Đăng Nhập</a>.</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+   document.addEventListener('DOMContentLoaded', function () {
+    $(document).ready(function () {
+        $('.btn-login').click(function(){
+          $('#loginModal').modal('show');
+        })
+        $('.close').click(function () {
+          $('#loginModal').modal('hide');
+          $('#signupModal').modal('hide');
+        })
+
+        $('#login').click(function () {
+          $('#signupModal').modal('hide');
+          $('#loginModal').modal('show');
+        })
+
+        $('#signup').click(function () {
+          $('#loginModal').modal('hide');
+          $('#signupModal').modal('show');
+        })
+
+        function clearform(){
+          const username = $('#usersignup').val('');
+          const email = $('#emailsignup').val('');
+          const password = $('#passsignup').val('');
+          const repassword = $('#repasssignup').val('');
+        }
+
+        function infoalert(title, text, icon,isreload) {
+          Swal.fire({
+            title: title,
+            text: text,
+            icon: icon
+          }).then((result) => {
+            if (result.isConfirmed && isreload) {
+              window.location.reload();
+            }
+          });
+        }
+        //sign up
+        $('#signupButton').click(function () {
+          const username = $('#usersignup').val();
+          const email = $('#emailsignup').val();
+          const password = $('#passsignup').val();
+          const repassword = $('#repasssignup').val();
+
+          if (!username || !email || !password || !repassword) {
+            infoalert('Lỗi', 'Vui lòng điền đầy đủ thông tin.', 'error',false);
+            return;
+          }
+
+          if (password.length < 6) {
+            infoalert('Lỗi', 'Mật khẩu phải có ít nhất 6 ký tự.', 'error', false);
+            return;
+          }
+
+          if (password !== repassword) {
+            infoalert('Lỗi', 'Mật khẩu không khớp.', 'error', false);
+            return;
+          }
+
+          $.ajax({
+            type: 'POST',
+            url: '/handleSignup',
+            contentType: 'application/json',
+            data: JSON.stringify({
+              username: username,
+              email: email,
+              password: password,
+              repassword: repassword,
+            }),
+            success: function (response) {
+              if(response.code === 200)
+              {
+                clearform();
+                infoalert('Đăng ký thành công!', 'Bạn đã đăng ký thành công.', 'success', false);
+                $('#login').trigger('click');
+              }else{
+                infoalert('Lỗi!', response.error, 'error', false);
+              }
+            },
+            error: function (xhr) {
+              const response = JSON.parse(xhr.responseText);
+              infoalert('Lỗi', response.error || 'Đã xảy ra lỗi, vui lòng thử lại.', 'error', false);
+            }
+          });
+        });
+
+        //login
+        function handlelogin() {
+          const username = $('#username').val();
+          const password = $('#password').val();
+          if (!username || !password) {
+            infoalert('Lỗi', 'Vui lòng nhập tài khoản và mật khẩu', 'error', false);
+            return;
+          }
+
+          $.ajax({
+            type: 'POST',
+            url: '/handleLogin',
+            contentType: 'application/json',
+            data: JSON.stringify({
+              username: username,
+              password: password,
+            }),
+            success: function (response) {
+              if (response.code === 200) {
+                infoalert('Đăng Nhập thành công!', '', 'success', true);
+                
+              } else {
+                infoalert('Lỗi!', response.error, 'error', false);
+              }
+            },
+            error: function (xhr) {
+              const response = JSON.parse(xhr.responseText);
+              infoalert('Lỗi', response.error || 'Đã xảy ra lỗi, vui lòng thử lại.', 'error', false);
+            }
+          });
+        }
+        $('#loginButton').click(function () {
+          handlelogin();
+        });
+
+        $("#username, #password").keypress(function (e) {
+          if (e.which === 13) {
+            handlelogin();
+          }
+        });
+    });
+   })
+</script>
